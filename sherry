@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BHC Staffing — Brookville Homecare</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0c1b33;
+  --navy2: #162640;
+  --teal: #0d8a8a;
+  --teal-glow: #12b0b0;
+  --cream: #f4f1eb;
+  --warm: #faf9f6;
+  --gold: #c4882a;
+  --red: #b83232;
+  --green: #1c7a52;
+  --amber: #c97d14;
+  --blue: #1d5fa8;
+  --slate: #3a4e65;
+  --muted: #6e849e;
+  --border: #dce3ed;
+  --card: #ffffff;
+  --shadow: 0 2px 12px rgba(12,27,51,0.08);
+  --shadow-lg: 0 8px 32px rgba(12,27,51,0.14);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Sora', sans-serif; background: var(--cream); color: var(--navy); min-height: 100vh; }
+
+/* ── HEADER ── */
+header {
+  background: var(--navy);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+}
+.logo { font-family: 'Playfair Display', serif; color: #fff; font-size: 1.18rem; letter-spacing: 0.01em; }
+.logo em { color: var(--teal-glow); font-style: normal; }
+.hstats { display: flex; gap: 22px; }
+.hs { text-align:center; }
+.hs-val { display:block; font-size:1rem; font-weight:700; color:#fff; line-height:1; }
+.hs-lbl { font-size:0.63rem; text-transform:uppercase; letter-spacing:.07em; color:rgba(255,255,255,.5); }
+
+/* ── TABS ── */
+nav {
+  background: var(--navy2);
+  border-top: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  padding: 0 28px;
+  overflow-x: auto;
+}
+.tab {
+  padding: 11px 18px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+  user-select: none;
+}
+.tab:hover { color: rgba(255,255,255,.8); }
+.tab.active { color: var(--teal-glow); border-bottom-color: var(--teal-glow); }
+
+/* ── MAIN ── */
+main { padding: 26px 28px; max-width: 1700px; }
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* ── KPI ROW ── */
+.kpi-row { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:24px; }
+.kpi {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.kpi-lbl { font-size:.65rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:600; margin-bottom:7px; }
+.kpi-val { font-family:'Playfair Display',serif; font-size:2rem; line-height:1; color:var(--navy); }
+.kpi-sub { font-size:.7rem; color:var(--muted); margin-top:3px; }
+.kpi.green .kpi-val { color:var(--green); }
+.kpi.red .kpi-val { color:var(--red); }
+.kpi.amber .kpi-val { color:var(--amber); }
+
+/* ── CHARTS ── */
+.charts-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:24px; }
+.chart-card { background:var(--card); border-radius:10px; padding:20px 22px; border:1px solid var(--border); box-shadow:var(--shadow); }
+.chart-ttl { font-size:.66rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:700; margin-bottom:14px; }
+.bar-chart { display:flex; flex-direction:column; gap:9px; }
+.bar-row { display:flex; align-items:center; gap:10px; }
+.bar-lbl { font-size:.75rem; color:var(--slate); width:115px; flex-shrink:0; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bar-track { flex:1; background:#eef1f6; border-radius:4px; height:20px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:7px; font-size:.68rem; font-weight:700; color:#fff; min-width:4px; }
+.bar-n { font-size:.73rem; color:var(--muted); width:28px; text-align:right; flex-shrink:0; }
+
+/* ── FILTERS ── */
+.filters { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+.srch { position:relative; flex:1; min-width:180px; }
+.srch input {
+  width:100%; padding:8px 12px 8px 34px;
+  border:1px solid var(--border); border-radius:7px;
+  font-family:inherit; font-size:.82rem; background:#fff; color:var(--navy);
+  outline:none; transition:border-color .2s;
+}
+.srch input:focus { border-color:var(--teal); }
+.srch-ico { position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:.85rem; color:var(--muted); pointer-events:none; }
+select.flt {
+  padding:8px 11px; border:1px solid var(--border); border-radius:7px;
+  font-family:inherit; font-size:.8rem; background:#fff; color:var(--navy);
+  cursor:pointer; outline:none; transition:border-color .2s;
+}
+select.flt:focus { border-color:var(--teal); }
+.btn-add {
+  background:var(--teal); color:#fff; border:none;
+  padding:8px 15px; border-radius:7px;
+  font-family:inherit; font-size:.78rem; font-weight:700;
+  cursor:pointer; display:flex; align-items:center; gap:5px; white-space:nowrap;
+}
+.btn-add:hover { background:var(--teal-glow); }
+
+/* ── TABLE ── */
+.tbl-wrap { background:var(--card); border-radius:10px; border:1px solid var(--border); overflow:hidden; box-shadow:var(--shadow); }
+.tbl-head { display:flex; justify-content:space-between; align-items:center; padding:12px 18px; border-bottom:1px solid var(--border); background:var(--warm); }
+.tbl-head h3 { font-size:.68rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700; }
+.tbl-head span { font-size:.76rem; color:var(--muted); }
+.tbl-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:.8rem; }
+th {
+  background:#f0f4f9; padding:9px 12px;
+  text-align:left; font-size:.65rem; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--muted); font-weight:700; white-space:nowrap;
+  border-bottom:1px solid var(--border); cursor:pointer; user-select:none;
+}
+th:hover { color:var(--navy); }
+td { padding:9px 12px; border-bottom:1px solid #f0f3f8; vertical-align:middle; color:var(--slate); max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:#f7fafd; }
+.nm { color:var(--navy); font-weight:600; cursor:pointer; }
+.nm:hover { color:var(--teal); text-decoration:underline; }
+
+/* ── BADGES ── */
+.bdg { display:inline-block; padding:2px 8px; border-radius:20px; font-size:.68rem; font-weight:700; letter-spacing:.02em; white-space:nowrap; }
+.bdg-hired { background:#d4f0e4; color:#145235; }
+.bdg-noshow { background:#fde0e0; color:#7b1515; }
+.bdg-dnp { background:#fef0d0; color:#7a4500; }
+.bdg-pending { background:#dbeafe; color:#1a3a8c; }
+.bdg-rescheduled { background:#ede9fe; color:#4a1d95; }
+.bdg-fired { background:#fee2e2; color:#6b1a1a; }
+.bdg-def { background:#e9ecef; color:#3d4f63; }
+.yn-y { color:var(--green); font-weight:700; font-size:.78rem; }
+.yn-n { color:var(--red); font-size:.78rem; }
+
+/* ── PAGINATION ── */
+.pgn { display:flex; justify-content:space-between; align-items:center; padding:11px 18px; border-top:1px solid var(--border); background:var(--warm); }
+.pgn-info { font-size:.76rem; color:var(--muted); }
+.pgn-btns { display:flex; gap:5px; }
+.pgn-btn {
+  width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--border); border-radius:6px; background:#fff;
+  cursor:pointer; font-size:.76rem; color:var(--slate); transition:all .15s;
+}
+.pgn-btn:hover { border-color:var(--teal); color:var(--teal); }
+.pgn-btn.on { background:var(--teal); color:#fff; border-color:var(--teal); }
+.pgn-btn:disabled { opacity:.3; cursor:default; }
+
+/* ══════════════════════════════
+   MODAL — shared shell
+══════════════════════════════ */
+.overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(12,27,51,.6); z-index:600;
+  align-items:center; justify-content:center; padding:16px;
+}
+.overlay.open { display:flex; }
+.modal {
+  background:#fff; border-radius:14px;
+  width:700px; max-width:100%; max-height:92vh; overflow-y:auto;
+  box-shadow:var(--shadow-lg);
+  animation: popIn .18s ease;
+}
+@keyframes popIn { from { transform:scale(.96); opacity:0; } to { transform:scale(1); opacity:1; } }
+.modal-hd {
+  padding:18px 22px; border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:flex-start;
+  position:sticky; top:0; background:#fff; z-index:10;
+}
+.modal-hd h2 { font-family:'Playfair Display',serif; font-size:1.25rem; color:var(--navy); }
+.modal-hd .sub { font-size:.76rem; color:var(--muted); margin-top:3px; }
+.modal-close { background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--muted); line-height:1; }
+.modal-body { padding:20px 22px; }
+
+/* ── DETAIL VIEW (read mode) ── */
+.dg { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+.di { display:flex; flex-direction:column; gap:3px; }
+.di.full { grid-column:1/-1; }
+.di-lbl { font-size:.63rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700; }
+.di-val { font-size:.86rem; color:var(--navy); }
+.modal-actions { display:flex; gap:8px; margin-top:18px; padding-top:14px; border-top:1px solid var(--border); }
+
+/* ── EDIT FORM inside modal ── */
+.edit-form { display:none; }
+.edit-form.show { display:block; }
+.detail-view { display:block; }
+.detail-view.hide { display:none; }
+
+.fg { display:flex; flex-direction:column; gap:5px; margin-bottom:12px; }
+.fg label { font-size:.63rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); font-weight:700; }
+.fg input, .fg select, .fg textarea {
+  padding:8px 11px; border:1px solid var(--border); border-radius:7px;
+  font-family:inherit; font-size:.84rem; color:var(--navy); outline:none;
+  transition:border-color .2s; background:#fff; width:100%;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--teal); }
+.fg textarea { min-height:65px; resize:vertical; }
+.fg-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.fg-grid .fg { margin-bottom:0; }
+.fg-full { grid-column:1/-1; }
+
+/* ── DAYS CHECKBOXES ── */
+.days-grid { display:flex; flex-wrap:wrap; gap:7px; margin-top:4px; }
+.day-cb { display:flex; align-items:center; gap:5px; cursor:pointer; }
+.day-cb input[type=checkbox] { accent-color:var(--teal); width:14px; height:14px; cursor:pointer; }
+.day-cb span { font-size:.8rem; color:var(--slate); user-select:none; }
+
+/* ── AVAIL CHECKBOXES ── */
+.avail-grid { display:flex; flex-wrap:wrap; gap:7px; margin-top:4px; }
+.avail-cb { display:flex; align-items:center; gap:5px; cursor:pointer; }
+.avail-cb input[type=checkbox] { accent-color:var(--teal); width:14px; height:14px; cursor:pointer; }
+.avail-cb span { font-size:.8rem; color:var(--slate); user-select:none; }
+
+/* ── INTAKE FORM ── */
+.intake-wrap { max-width:760px; }
+.intake-card { background:var(--card); border-radius:12px; border:1px solid var(--border); overflow:hidden; box-shadow:var(--shadow); }
+.intake-banner {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3a6b 100%);
+  padding: 22px 28px;
+  position: relative; overflow:hidden;
+}
+.intake-banner::after {
+  content:''; position:absolute; right:-20px; top:-20px;
+  width:120px; height:120px; border-radius:50%;
+  background:rgba(13,138,138,.15);
+}
+.intake-banner h2 { font-family:'Playfair Display',serif; color:#fff; font-size:1.3rem; }
+.intake-banner p { color:rgba(255,255,255,.6); font-size:.8rem; margin-top:4px; }
+.intake-body { padding:24px 28px; }
+.section-ttl { font-size:.65rem; text-transform:uppercase; letter-spacing:.09em; color:var(--teal); font-weight:700; margin-bottom:12px; margin-top:20px; padding-bottom:6px; border-bottom:2px solid #e8f4f4; }
+.section-ttl:first-child { margin-top:0; }
+.intake-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.intake-grid .fg { margin-bottom:0; }
+.intake-grid .fg.span2 { grid-column:1/-1; }
+.intake-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:22px; padding-top:16px; border-top:1px solid var(--border); }
+
+/* ── BUTTONS ── */
+.btn { padding:9px 18px; border-radius:7px; font-family:inherit; font-size:.82rem; font-weight:600; cursor:pointer; transition:all .2s; border:none; }
+.btn-primary { background:var(--teal); color:#fff; }
+.btn-primary:hover { background:var(--teal-glow); }
+.btn-secondary { background:#fff; color:var(--navy); border:1px solid var(--border); }
+.btn-secondary:hover { border-color:var(--teal); color:var(--teal); }
+.btn-danger { background:#fde8e8; color:var(--red); border:1px solid #f5c2c2; }
+.btn-danger:hover { background:#fbd0d0; }
+.btn-sm { padding:6px 12px; font-size:.75rem; }
+.btn-edit { background:var(--navy); color:#fff; }
+.btn-edit:hover { background:var(--navy2); }
+
+/* ── TOAST ── */
+#toast {
+  position:fixed; bottom:24px; right:24px; z-index:999;
+  background:var(--navy); color:#fff;
+  padding:11px 18px; border-radius:8px;
+  font-size:.82rem; font-weight:500;
+  box-shadow:var(--shadow-lg);
+  transform:translateY(80px); opacity:0;
+  transition:all .3s ease;
+  pointer-events:none;
+}
+#toast.show { transform:translateY(0); opacity:1; }
+#toast.success { background:var(--green); }
+#toast.error { background:var(--red); }
+
+/* ── EMPTY ── */
+.empty { text-align:center; padding:44px 20px; color:var(--muted); }
+.empty .ico { font-size:2.2rem; margin-bottom:10px; }
+
+@media(max-width:900px) {
+  .kpi-row { grid-template-columns:repeat(3,1fr); }
+  .charts-row { grid-template-columns:1fr; }
+  main { padding:16px; }
+  header,nav { padding-left:16px; padding-right:16px; }
+  .intake-grid,.fg-grid { grid-template-columns:1fr; }
+  .intake-grid .fg.span2 { grid-column:1; }
+  .dg { grid-template-columns:1fr; }
+  .di.full { grid-column:1; }
+}
+
+@media print {
+  body * { visibility: hidden !important; }
+  #print-dashboard-area, #print-dashboard-area * { visibility: visible !important; }
+  #print-dashboard-area { position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
+  .no-print { display: none !important; }
+  header, nav { display: none !important; }
+  @page { margin: 1cm; }
+}
+</style>
+</head>
+<body>
+<div id="identity-gate" style="display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#0f2952 0%,#1a3a6b 60%,#0d8a8a 100%);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:48px 44px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;font-family:Inter,sans-serif;">
+    <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#0f2952;font-weight:700;">Brookville</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#0d8a8a;font-style:italic;margin-top:-4px;">Homecare</div>
+    <div style="font-size:12px;color:#94a3b8;margin-top:8px;margin-bottom:32px;text-transform:uppercase;letter-spacing:.08em;">Staffing Portal</div>
+    <div id="google-signin-btn" style="display:flex;justify-content:center;margin-bottom:12px;"></div>
+    <div id="gate-error" style="color:#b83232;font-size:12px;min-height:16px;margin-top:8px;"></div>
+    <div style="font-size:11px;color:#cbd5e1;margin-top:16px;">Sign in with your @brookvillehomecare.com account</div>
+  </div>
+</div>
+
+<div id="app-content" style="display:none;">
+<header>
+  <div class="logo">Brookville <em>Homecare</em></div>
+  <div style="display:flex;align-items:center;gap:10px;margin-left:auto;margin-right:16px;">
+    <span id="user-email-display" style="font-size:12px;color:rgba(255,255,255,.85);"></span>
+    <button onclick="doSignOut()" id="signout-btn" style="display:none;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;">Sign Out</button>
+  </div>
+  <div class="hstats">
+    <div class="hs"><span class="hs-val" id="hs-total">—</span><span class="hs-lbl">Applicants</span></div>
+    <div class="hs"><span class="hs-val" id="hs-hired">—</span><span class="hs-lbl">Hired</span></div>
+    <div class="hs"><span class="hs-val" id="hs-pre">—</span><span class="hs-lbl">Pre-Emp</span></div>
+    <button onclick="clearStorage()" title="Reset all data to original" style="background:none;border:1px solid rgba(255,255,255,0.4);color:#fff;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;margin-left:12px;opacity:0.75;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">↺ Reset Data</button>
+  </div>
+</header>
+
+<nav>
+  <div class="tab active" data-tab="intake">📝 New Intake</div>
+  <div class="tab" data-tab="dashboard">📊 Dashboard</div>
+  <div class="tab" data-tab="interviews">📋 Interviews</div>
+  <div class="tab" data-tab="preemployment">✅ Pre-Employment</div>
+  <div class="tab" data-tab="hired">🟢 Hired Staff</div>
+</nav>
+
+<main>
+
+<!-- ══ INTAKE FORM ══ -->
+<div class="panel active" id="panel-intake">
+<div class="intake-wrap">
+<div class="intake-card">
+  <div class="intake-banner">
+    <h2>New Applicant Intake</h2>
+    <p>Complete all fields from the interview sheet — Tab 1</p>
+  </div>
+  <div class="intake-body">
+
+    <div class="section-ttl">Contact Information</div>
+    <div class="intake-grid">
+      <div class="fg"><label>Full Name *</label><input id="i-name" placeholder="Jane Smith"></div>
+      <div class="fg"><label>Phone *</label><input id="i-phone" placeholder="(631) 555-0100"></div>
+      <div class="fg"><label>Email</label><input id="i-email" type="email" placeholder="jane@email.com"></div>
+      <div class="fg"><label>Town / Location</label><input id="i-town" placeholder="Hempstead"></div>
+    </div>
+
+    <div class="section-ttl">Eligibility</div>
+    <div class="intake-grid">
+      <div class="fg"><label>Legal to Work in USA</label>
+        <select id="i-legal"><option value="Yes">Yes</option><option value="No">No</option></select>
+      </div>
+      <div class="fg"><label>Valid HHA / PCA</label>
+        <select id="i-hha"><option value="Yes">Yes</option><option value="No">No</option></select>
+      </div>
+      <div class="fg"><label>Can Drive</label>
+        <select id="i-drive"><option value="Yes">Yes</option><option value="No">No</option></select>
+      </div>
+      <div class="fg"><label>Nassau County Availability</label>
+        <select id="i-nassau"><option value="Yes">Yes</option><option value="No">No</option></select>
+      </div>
+    </div>
+
+    <div class="section-ttl">Availability</div>
+    <div class="fg">
+      <label>Availability Type</label>
+      <div class="avail-grid" id="intake-avail-cbs">
+        <label class="avail-cb"><input type="checkbox" value="Hourly"><span>Hourly</span></label>
+        <label class="avail-cb"><input type="checkbox" value="Full-Time"><span>Full-Time</span></label>
+        <label class="avail-cb"><input type="checkbox" value="Live-in"><span>Live-in</span></label>
+        <label class="avail-cb"><input type="checkbox" value="Overnight"><span>Overnight</span></label>
+        <label class="avail-cb"><input type="checkbox" value="Per Diem"><span>Per Diem</span></label>
+      </div>
+    </div>
+    <div class="fg" style="margin-top:12px;">
+      <label>Days Available</label>
+      <div class="days-grid" id="intake-days-cbs">
+        <label class="day-cb"><input type="checkbox" value="Monday"><span>Mon</span></label>
+        <label class="day-cb"><input type="checkbox" value="Tuesday"><span>Tue</span></label>
+        <label class="day-cb"><input type="checkbox" value="Wednesday"><span>Wed</span></label>
+        <label class="day-cb"><input type="checkbox" value="Thursday"><span>Thu</span></label>
+        <label class="day-cb"><input type="checkbox" value="Friday"><span>Fri</span></label>
+        <label class="day-cb"><input type="checkbox" value="Saturday"><span>Sat</span></label>
+        <label class="day-cb"><input type="checkbox" value="Sunday"><span>Sun</span></label>
+      </div>
+    </div>
+
+    <div class="section-ttl">Interview & Scheduling</div>
+    <div class="intake-grid">
+      <div class="fg"><label>Date Added</label><input id="i-date" type="date"></div>
+      <div class="fg"><label>Status</label>
+        <select id="i-status">
+          <option value="Pending Orientation">Pending Orientation</option>
+            <option value="Pending for In-Person Interview">Pending for In-Person Interview</option>
+          <option value="Hired">Hired</option>
+          <option value="No Show">No Show</option>
+          <option value="DNP">DNP</option>
+          <option value="Rescheduled">Rescheduled</option>
+          <option value="Fired">Fired</option>
+        </select>
+      </div>
+      <div class="fg"><label>Interview Date / Time</label><input id="i-intdate" placeholder="e.g. Monday Jan 6 @ 10:00 AM"></div>
+      <div class="fg"><label>Orientation Date</label><input id="i-oridate" placeholder="e.g. Monday Jan 13 @ 9:00 AM"></div>
+      <div class="fg span2"><label>Scheduled By</label><input id="i-sched" placeholder="Coordinator name"></div>
+    </div>
+
+    <div class="section-ttl">Notes</div>
+    <div class="fg"><label>Comments</label><textarea id="i-comments" placeholder="Additional notes..."></textarea></div>
+
+    <div class="intake-actions">
+      <button class="btn btn-secondary" onclick="clearIntake()">Clear Form</button>
+      <button class="btn btn-primary" onclick="submitIntake()">✓ Submit Applicant</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div class="panel" id="panel-dashboard">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+    <button onclick="printDashboard()" style="background:var(--navy);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 2px 8px rgba(0,0,0,.15);" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 Print Dashboard</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+    <span style="font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Filter KPIs by:</span>
+    <select id="kpi-year" onchange="renderDash()" style="font-size:12px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:7px;color:#334155;background:#fff;">
+      <option value="all">All Years</option>
+    </select>
+    <select id="kpi-month" onchange="renderDash()" style="font-size:12px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:7px;color:#334155;background:#fff;">
+      <option value="all">All Months</option>
+      <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+      <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+      <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+      <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+    </select>
+    <button onclick="document.getElementById('kpi-year').value='all';document.getElementById('kpi-month').value='all';renderDash();" style="font-size:11px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:7px;background:#fff;color:#64748b;cursor:pointer;">✕ Clear</button>
+    <span id="kpi-filter-label" style="font-size:11px;color:#94a3b8;margin-left:4px;"></span>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-lbl">Total Applicants</div><div class="kpi-val" id="kpi-total">0</div><div class="kpi-sub" id="kpi-total-sub">All time</div></div>
+    <div class="kpi green"><div class="kpi-lbl">Hired</div><div class="kpi-val" id="kpi-hired">0</div><div class="kpi-sub" id="kpi-hired-sub">Passed orientation</div></div>
+    <div class="kpi red"><div class="kpi-lbl">No Show / DNP</div><div class="kpi-val" id="kpi-noshow">0</div><div class="kpi-sub">Did not attend</div></div>
+    <div class="kpi amber"><div class="kpi-lbl">Pending</div><div class="kpi-val" id="kpi-pending">0</div><div class="kpi-sub">Pending orientation</div></div>
+    <div class="kpi"><div class="kpi-lbl">Hire Rate</div><div class="kpi-val" id="kpi-rate">0%</div><div class="kpi-sub">Hired ÷ Interviewed</div></div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card"><div class="chart-ttl">Interview Outcomes</div><div class="bar-chart" id="ch-status"></div></div>
+    <div class="chart-card"><div class="chart-ttl">Availability Type</div><div class="bar-chart" id="ch-avail"></div></div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card"><div class="chart-ttl">Top Locations</div><div class="bar-chart" id="ch-loc"></div></div>
+    <div class="chart-card"><div class="chart-ttl">Can Drive</div><div class="bar-chart" id="ch-drive"></div></div>
+  </div>
+  <div class="charts-row" style="margin-bottom:0;">
+    <div class="chart-card" style="flex:1 1 100%;max-width:100%;">
+      <div class="chart-ttl">📅 Interviews Scheduled &amp; Hires by Month</div>
+      <div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
+        <label style="font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;width:14px;height:14px;background:#1d5fa8;border-radius:3px;"></span> Interviews Scheduled
+        </label>
+        <label style="font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;">
+          <span style="display:inline-block;width:14px;height:14px;background:#1c7a52;border-radius:3px;"></span> Hired
+        </label>
+        <select id="ch-month-year" onchange="renderMonthChart()" style="margin-left:auto;font-size:12px;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;color:#334155;">
+          <option value="all">All Years</option>
+        </select>
+      </div>
+      <div id="ch-monthly" style="overflow-x:auto;"></div>
+    </div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card" style="flex:1 1 100%;max-width:100%;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <div class="chart-ttl" style="margin:0;flex:1;">✅ Hired Staff — Scheduled By</div>
+        <select id="sched-year" onchange="renderSchedChart()" style="font-size:12px;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;color:#334155;">
+          <option value="all">All Years</option>
+        </select>
+        <select id="sched-month" onchange="renderSchedChart()" style="font-size:12px;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;color:#334155;">
+          <option value="all">All Months</option>
+          <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+          <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+          <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+          <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+        </select>
+      </div>
+      <div class="bar-chart" id="ch-sched"></div>
+    </div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card" style="flex:1 1 100%;max-width:100%;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <div class="chart-ttl" style="margin:0;flex:1;">📋 Interviews Scheduled By Scheduler</div>
+        <select id="int-sched-year" onchange="renderIntSchedChart()" style="font-size:12px;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;color:#334155;">
+          <option value="all">All Years</option>
+        </select>
+        <select id="int-sched-month" onchange="renderIntSchedChart()" style="font-size:12px;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;color:#334155;">
+          <option value="all">All Months</option>
+          <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+          <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+          <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+          <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+        </select>
+      </div>
+      <div class="bar-chart" id="ch-int-sched"></div>
+    </div>
+  </div>
+  <div style="margin-top:16px;border-radius:14px;padding:28px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:linear-gradient(135deg,var(--navy) 0%,#1a3a6b 100%);">
+    <div>
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:6px;">Hired Year to Date</div>
+      <div style="font-family:'Playfair Display',serif;font-size:3.2rem;color:#fff;line-height:1;" id="dash-hired-total">—</div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.45);margin-top:8px;" id="dash-sched-count">across — schedulers</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:4px;">Current Year</div>
+      <div style="font-size:1.6rem;color:rgba(255,255,255,.85);font-weight:700;" id="dash-ytd-year">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INTERVIEWS ══ -->
+<div class="panel" id="panel-interviews">
+  <div class="filters">
+    <div class="srch"><span class="srch-ico">🔍</span><input id="int-q" placeholder="Search name, phone, town…" oninput="renderInt()"></div>
+    <select class="flt" id="int-status" onchange="renderInt()">
+      <option value="">All Statuses</option>
+      <option>Hired</option><option>No Show</option><option>DNP</option>
+      <option>Pending Orientation</option><option>Pending for In-Person Interview</option><option>Rescheduled</option><option>Fired</option>
+    </select>
+    <select class="flt" id="int-avail" onchange="renderInt()">
+      <option value="">All Availability</option>
+      <option>Hourly</option><option>Live-in</option><option>Full-Time</option><option>Overnight</option>
+    </select>
+    <select class="flt" id="int-drive" onchange="renderInt()">
+      <option value="">Drive: Any</option>
+      <option value="Yes">Can Drive</option><option value="No">No Drive</option>
+    </select>
+    <select class="flt" id="int-nassau" onchange="renderInt()">
+      <option value="">Nassau: Any</option>
+      <option value="Yes">Available</option><option value="No">Unavailable</option>
+    </select>
+    <button class="btn-add" onclick="showTab('intake')">+ New Intake</button>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-head"><h3>Interview Records</h3><span id="int-count"></span></div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr>
+          <th onclick="sortInt('NAME')">Name ↕</th>
+          <th onclick="sortInt('DATE')">Date ↕</th>
+          <th>Phone</th><th>Town</th><th>Availability</th>
+          <th>Nassau</th><th>Drive</th><th>HHA/PCA</th>
+          <th onclick="sortInt('STATUS')">Status ↕</th>
+          <th>Orientation</th><th>Sched. By</th><th>Edit</th>
+        </tr></thead>
+        <tbody id="int-tbody"></tbody>
+      </table>
+    </div>
+    <div class="pgn" id="int-pgn"></div>
+    <div style="padding:8px 0 4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="btn btn-sm" style="background:#1c7a52;color:#fff;font-size:12px;" onclick="exportCSV('interviews')">&#11015; Export All Interviews CSV</button>
+      <button class="btn btn-sm" style="background:#1d5fa8;color:#fff;font-size:12px;" onclick="exportCSV('interviews-filtered')">&#11015; Export Filtered CSV</button>
+      <span id="ls-int-status" style="font-size:11px;color:#888;margin-left:4px;"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRE-EMPLOYMENT ══ -->
+<div class="panel" id="panel-preemployment">
+  <div class="filters">
+    <div class="srch"><span class="srch-ico">🔍</span><input id="pre-q" placeholder="Search name, location…" oninput="renderPre()"></div>
+    <select class="flt" id="pre-avail" onchange="renderPre()">
+      <option value="">All Availability</option>
+      <option>Hourly</option><option>Live-in</option><option>Full-Time</option><option>Overnight</option>
+    </select>
+    <select class="flt" id="pre-drive" onchange="renderPre()">
+      <option value="">Drive: Any</option>
+      <option value="Yes">Can Drive</option><option value="No">No Drive</option>
+    </select>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-head"><h3>Pre-Employment Roster</h3><span id="pre-count"></span></div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr>
+          <th onclick="sortPre('NAME')">Name ↕</th>
+          <th>Phone</th><th>Location</th><th>Availability</th>
+          <th>Days Available</th><th>Drive</th>
+          <th>Orientation Date</th><th>Comments</th><th>Edit</th>
+        </tr></thead>
+        <tbody id="pre-tbody"></tbody>
+      </table>
+    </div>
+    <div class="pgn" id="pre-pgn"></div>
+    <div style="padding:8px 0 4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="btn btn-sm" style="background:#1c7a52;color:#fff;font-size:12px;" onclick="exportCSV('preemployment')">&#11015; Export Pre-Employment CSV</button>
+      <span id="ls-pre-status" style="font-size:11px;color:#888;margin-left:4px;"></span>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ══ HIRED STAFF ══ -->
+<div class="panel" id="panel-hired">
+  <div class="filters">
+    <div class="srch"><span class="srch-ico">🔍</span><input id="hrd-q" placeholder="Search name, phone, town…" oninput="renderHired()"></div>
+    <select class="flt" id="hrd-avail" onchange="renderHired()">
+      <option value="">All Availability</option>
+      <option>Hourly</option><option>Live-in</option><option>Full-Time</option><option>Overnight</option>
+    </select>
+    <select class="flt" id="hrd-drive" onchange="renderHired()">
+      <option value="">Drive: Any</option>
+      <option value="Yes">Can Drive</option><option value="No">No Drive</option>
+    </select>
+    <select class="flt" id="hrd-nassau" onchange="renderHired()">
+      <option value="">Nassau: Any</option>
+      <option value="Yes">Available</option><option value="No">Unavailable</option>
+    </select>
+    <select class="flt" id="hrd-days" onchange="renderHired()">
+      <option value="">Any Day</option>
+      <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+      <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+    </select>
+  </div>
+  <div class="tbl-wrap">
+    <div class="tbl-head">
+      <h3>🟢 Hired Staff</h3>
+      <span id="hrd-count"></span>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr>
+          <th onclick="sortHrd('NAME')">Name ↕</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th onclick="sortHrd('TOWN')">Town ↕</th>
+          <th>Availability</th>
+          <th>Days Available</th>
+          <th>Nassau</th>
+          <th>Drive</th>
+          <th>HHA/PCA</th>
+          <th>Orientation Date</th>
+          <th>Scheduled By</th>
+          <th>Comments</th>
+          <th>Edit</th>
+        </tr></thead>
+        <tbody id="hrd-tbody"></tbody>
+      </table>
+    </div>
+    <div class="pgn" id="hrd-pgn"></div>
+    <div style="padding:8px 0 4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="btn btn-sm" style="background:#1c7a52;color:#fff;font-size:12px;" onclick="exportCSV('hired')">&#11015; Export Hired Staff CSV</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DETAIL / EDIT MODAL (Interviews) ══ -->
+<div class="overlay" id="int-modal" onclick="closeOnBg(event,'int-modal')">
+<div class="modal">
+  <div class="modal-hd">
+    <div>
+      <h2 id="im-name">—</h2>
+      <div class="sub" id="im-badge-wrap"></div>
+    </div>
+    <button class="modal-close" onclick="closeModal('int-modal')">✕</button>
+  </div>
+  <div class="modal-body">
+    <!-- Read view -->
+    <div class="detail-view" id="im-detail">
+      <div class="dg" id="im-fields"></div>
+      <div class="modal-actions">
+        <button class="btn btn-edit btn-sm" onclick="switchToEdit('int')">✏️ Edit Record</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteRecord('int')">🗑 Delete</button>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('int-modal')">Close</button>
+      </div>
+    </div>
+    <!-- Edit view -->
+    <div class="edit-form" id="im-edit">
+      <div class="fg-grid">
+        <div class="fg"><label>Full Name</label><input id="ie-name"></div>
+        <div class="fg"><label>Phone</label><input id="ie-phone"></div>
+        <div class="fg"><label>Email</label><input id="ie-email"></div>
+        <div class="fg"><label>Town</label><input id="ie-town"></div>
+        <div class="fg"><label>Date Added</label><input id="ie-date" type="date"></div>
+        <div class="fg"><label>Status</label>
+          <select id="ie-status">
+            <option>Pending Orientation</option><option>Pending for In-Person Interview</option><option>Hired</option>
+            <option>No Show</option><option>DNP</option><option>Rescheduled</option><option>Fired</option>
+          </select>
+        </div>
+        <div class="fg"><label>Interview Date</label><input id="ie-intdate"></div>
+        <div class="fg"><label>Orientation Date</label><input id="ie-oridate"></div>
+        <div class="fg"><label>Scheduled By</label><input id="ie-sched"></div>
+        <div class="fg"><label>Nassau County Available</label>
+          <select id="ie-nassau"><option value="Yes">Yes</option><option value="No">No</option></select>
+        </div>
+        <div class="fg"><label>Legal to Work in USA</label>
+          <select id="ie-legal"><option value="Yes">Yes</option><option value="No">No</option></select>
+        </div>
+        <div class="fg"><label>Valid HHA/PCA</label>
+          <select id="ie-hha"><option value="Yes">Yes</option><option value="No">No</option></select>
+        </div>
+        <div class="fg"><label>Can Drive</label>
+          <select id="ie-drive"><option value="Yes">Yes</option><option value="No">No</option></select>
+        </div>
+        <div class="fg fg-full"><label>Availability Type</label>
+          <div class="avail-grid" id="ie-avail-cbs">
+            <label class="avail-cb"><input type="checkbox" value="Hourly"><span>Hourly</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Full-Time"><span>Full-Time</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Live-in"><span>Live-in</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Overnight"><span>Overnight</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Per Diem"><span>Per Diem</span></label>
+          </div>
+        </div>
+        <div class="fg fg-full"><label>Days Available</label>
+          <div class="days-grid" id="ie-days-cbs">
+            <label class="day-cb"><input type="checkbox" value="Monday"><span>Mon</span></label>
+            <label class="day-cb"><input type="checkbox" value="Tuesday"><span>Tue</span></label>
+            <label class="day-cb"><input type="checkbox" value="Wednesday"><span>Wed</span></label>
+            <label class="day-cb"><input type="checkbox" value="Thursday"><span>Thu</span></label>
+            <label class="day-cb"><input type="checkbox" value="Friday"><span>Fri</span></label>
+            <label class="day-cb"><input type="checkbox" value="Saturday"><span>Sat</span></label>
+            <label class="day-cb"><input type="checkbox" value="Sunday"><span>Sun</span></label>
+          </div>
+        </div>
+        <div class="fg fg-full"><label>Comments</label><textarea id="ie-comments"></textarea></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-sm" onclick="saveIntEdit()">💾 Save Changes</button>
+        <button class="btn btn-secondary btn-sm" onclick="switchToDetail('int')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ DETAIL / EDIT MODAL (Pre-Employment) ══ -->
+<div class="overlay" id="pre-modal" onclick="closeOnBg(event,'pre-modal')">
+<div class="modal">
+  <div class="modal-hd">
+    <div>
+      <h2 id="pm-name">—</h2>
+      <div class="sub" id="pm-badge-wrap"></div>
+    </div>
+    <button class="modal-close" onclick="closeModal('pre-modal')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="detail-view" id="pm-detail">
+      <div class="dg" id="pm-fields"></div>
+      <div class="modal-actions">
+        <button class="btn btn-edit btn-sm" onclick="switchToEdit('pre')">✏️ Edit Record</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteRecord('pre')">🗑 Delete</button>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('pre-modal')">Close</button>
+      </div>
+    </div>
+    <div class="edit-form" id="pm-edit">
+      <div class="fg-grid">
+        <div class="fg"><label>Full Name</label><input id="pe-name"></div>
+        <div class="fg"><label>Phone</label><input id="pe-phone"></div>
+        <div class="fg"><label>Location</label><input id="pe-location"></div>
+        <div class="fg"><label>Date</label><input id="pe-date" type="date"></div>
+        <div class="fg"><label>Can Drive</label>
+          <select id="pe-drive"><option value="Yes">Yes</option><option value="No">No</option></select>
+        </div>
+        <div class="fg"><label>Interview Date</label><input id="pe-intdate"></div>
+        <div class="fg"><label>Orientation Date</label><input id="pe-oridate"></div>
+        <div class="fg"><label>Scheduled By</label><input id="pe-sched"></div>
+        <div class="fg fg-full"><label>Availability Type</label>
+          <div class="avail-grid" id="pe-avail-cbs">
+            <label class="avail-cb"><input type="checkbox" value="Hourly"><span>Hourly</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Full-Time"><span>Full-Time</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Live-in"><span>Live-in</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Overnight"><span>Overnight</span></label>
+            <label class="avail-cb"><input type="checkbox" value="Per Diem"><span>Per Diem</span></label>
+          </div>
+        </div>
+        <div class="fg fg-full"><label>Days Available</label>
+          <div class="days-grid" id="pe-days-cbs">
+            <label class="day-cb"><input type="checkbox" value="Monday"><span>Mon</span></label>
+            <label class="day-cb"><input type="checkbox" value="Tuesday"><span>Tue</span></label>
+            <label class="day-cb"><input type="checkbox" value="Wednesday"><span>Wed</span></label>
+            <label class="day-cb"><input type="checkbox" value="Thursday"><span>Thu</span></label>
+            <label class="day-cb"><input type="checkbox" value="Friday"><span>Fri</span></label>
+            <label class="day-cb"><input type="checkbox" value="Saturday"><span>Sat</span></label>
+            <label class="day-cb"><input type="checkbox" value="Sunday"><span>Sun</span></label>
+          </div>
+        </div>
+        <div class="fg fg-full"><label>Comments</label><textarea id="pe-comments"></textarea></div>
+        <div class="fg fg-full"><label>Paperwork Notes</label><textarea id="pe-paperwork"></textarea></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-sm" onclick="savePreEdit()">💾 Save Changes</button>
+        <button class="btn btn-secondary btn-sm" onclick="switchToDetail('pre')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ══════ DATA ══════
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYojsjWhdr8mUx5UA2sqtU824TeLIQm34-hVtC6gMf7Ioywv0sI0ueO5eHcD6TQSxtOg/exec';
+
+let interviews = [];
+let preemployment = [];
+
+let intFiltered = [], preFiltered = [];
+let intSort = {col:'DATE', dir:-1}, preSort = {col:'NAME', dir:1};
+let intPage = 1, prePage = 1;
+const PAGE = 25;
+
+let activeIntIdx = null, activePreIdx = null;
+
+// ══════ TABS ══════
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-tab="${name}"]`).classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'dashboard') renderDash();
+  if (name === 'interviews') { intPage=1; renderInt(); }
+  if (name === 'preemployment') { prePage=1; renderPre(); }
+  if (name === 'hired') { hrdPage=1; renderHired(); }
+  updateHStats();
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+
+// ══════ HELPERS ══════
+function badge(s) {
+  const m = {'Hired':'hired','No Show':'noshow','DNP':'dnp','Pending Orientation':'pending','Pending for In-Person Interview':'pending','Rescheduled':'rescheduled','Fired':'fired'};
+  return `<span class="bdg bdg-${m[s]||'def'}">${s||'—'}</span>`;
+}
+function yn(v) {
+  if (!v) return '—';
+  return v==='Yes' ? '<span class="yn-y">✓ Yes</span>' : '<span class="yn-n">✗ No</span>';
+}
+function toast(msg, type='success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  setTimeout(() => { el.className = ''; }, 2800);
+}
+function getCheckboxValues(containerId) {
+  return Array.from(document.querySelectorAll(`#${containerId} input[type=checkbox]:checked`))
+    .map(cb => cb.value);
+}
+function setCheckboxValues(containerId, valueStr) {
+  const vals = (valueStr||'').split(',').map(v => v.trim());
+  document.querySelectorAll(`#${containerId} input[type=checkbox]`).forEach(cb => {
+    cb.checked = vals.includes(cb.value);
+  });
+}
+function updateHStats() {
+  document.getElementById('hs-total').textContent = interviews.length;
+  document.getElementById('hs-hired').textContent = interviews.filter(r=>r.STATUS==='Hired').length;
+  document.getElementById('hs-pre').textContent = preemployment.length;
+}
+
+// ══════ INTAKE FORM ══════
+function setTodayDate() {
+  document.getElementById('i-date').value = new Date().toISOString().slice(0,10);
+}
+setTodayDate();
+
+function clearIntake() {
+  ['i-name','i-phone','i-email','i-town','i-intdate','i-oridate','i-sched','i-comments'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('i-legal').value = 'Yes';
+  document.getElementById('i-hha').value = 'Yes';
+  document.getElementById('i-drive').value = 'Yes';
+  document.getElementById('i-nassau').value = 'Yes';
+  document.getElementById('i-status').value = 'Pending Orientation';
+  document.querySelectorAll('#intake-avail-cbs input, #intake-days-cbs input').forEach(cb => cb.checked = false);
+  setTodayDate();
+}
+
+function submitIntake() {
+  const name = document.getElementById('i-name').value.trim();
+  const phone = document.getElementById('i-phone').value.trim();
+  if (!name || !phone) { toast('Name and phone are required.','error'); return; }
+
+  const avail = getCheckboxValues('intake-avail-cbs').join(', ');
+  const days = getCheckboxValues('intake-days-cbs').join(', ');
+
+  const rec = {
+    _id: Date.now(),
+    DATE: document.getElementById('i-date').value,
+    NAME: name,
+    PHONE: phone,
+    EMAIL: document.getElementById('i-email').value.trim(),
+    TOWN: document.getElementById('i-town').value.trim(),
+    'LEGAL TO WORK IN USA': document.getElementById('i-legal').value,
+    'VALID HHA/PCA': document.getElementById('i-hha').value,
+    'CAN DRIVE': document.getElementById('i-drive').value,
+    'NASSAU COUNTY AVAILABILITY': document.getElementById('i-nassau').value,
+    AVAILABILITY: avail,
+    'DAYS AVAILABLE': days,
+    'INTERVIEW DATE': document.getElementById('i-intdate').value.trim(),
+    STATUS: document.getElementById('i-status').value,
+    'ORIENTATION DATE': document.getElementById('i-oridate').value.trim(),
+    'SCHEDULED BY': document.getElementById('i-sched').value.trim(),
+    COMMENTS: document.getElementById('i-comments').value.trim(),
+  };
+  interviews.unshift(rec);
+  updateHStats();
+  clearIntake();
+  toast(`✓ ${name} added successfully!`);
+}
+
+// ══════ FILTER / SORT INTERVIEWS ══════
+function filterIntData() {
+  const q = document.getElementById('int-q').value.toLowerCase();
+  const st = document.getElementById('int-status').value;
+  const av = document.getElementById('int-avail').value;
+  const dr = document.getElementById('int-drive').value;
+  const na = document.getElementById('int-nassau').value;
+  return interviews.filter(r => {
+    if (q && !['NAME','PHONE','TOWN','EMAIL'].some(k=>(r[k]||'').toLowerCase().includes(q))) return false;
+    if (st && r.STATUS !== st) return false;
+    if (av && !(r.AVAILABILITY||'').includes(av)) return false;
+    if (dr && r['CAN DRIVE'] !== dr) return false;
+    if (na && r['NASSAU COUNTY AVAILABILITY'] !== na) return false;
+    return true;
+  });
+}
+function sortArr(data, s) {
+  return [...data].sort((a,b) => {
+    const av=(a[s.col]||'').toString().toLowerCase(), bv=(b[s.col]||'').toString().toLowerCase();
+    return av<bv?-s.dir:av>bv?s.dir:0;
+  });
+}
+function sortInt(col) { intSort.dir = intSort.col===col?-intSort.dir:1; intSort.col=col; renderInt(); }
+function sortPre(col) { preSort.dir = preSort.col===col?-preSort.dir:1; preSort.col=col; renderPre(); }
+
+// ══════ RENDER INTERVIEWS ══════
+function renderInt() {
+  intFiltered = sortArr(filterIntData(), intSort);
+  const total = intFiltered.length;
+  const pages = Math.max(1, Math.ceil(total/PAGE));
+  intPage = Math.min(intPage, pages);
+  const slice = intFiltered.slice((intPage-1)*PAGE, intPage*PAGE);
+  document.getElementById('int-count').textContent = `${total} records`;
+
+  const tb = document.getElementById('int-tbody');
+  if (!slice.length) {
+    tb.innerHTML = '<tr><td colspan="12"><div class="empty"><div class="ico">🔍</div>No records found</div></td></tr>';
+  } else {
+    tb.innerHTML = slice.map((r, idx) => `
+      <tr>
+        <td class="nm" onclick="openIntDetail(${(intPage-1)*PAGE+idx})">${r.NAME||'—'}</td>
+        <td>${r.DATE?r.DATE.slice(0,10):'—'}</td>
+        <td>${r.PHONE||'—'}</td>
+        <td>${r.TOWN||'—'}</td>
+        <td style="max-width:140px;">${r.AVAILABILITY||'—'}</td>
+        <td>${yn(r['NASSAU COUNTY AVAILABILITY'])}</td>
+        <td>${yn(r['CAN DRIVE'])}</td>
+        <td>${yn(r['VALID HHA/PCA'])}</td>
+        <td>${badge(r.STATUS)}</td>
+        <td style="max-width:140px;">${r['ORIENTATION DATE']||'—'}</td>
+        <td>${r['SCHEDULED BY']||'—'}</td>
+        <td><button class="btn btn-edit btn-sm" onclick="openIntEdit(${(intPage-1)*PAGE+idx})">✏️</button></td>
+      </tr>`).join('');
+  }
+  renderPgn('int', intPage, pages, total);
+}
+
+// ══════ RENDER PRE-EMPLOYMENT ══════
+function filterPreData() {
+  const q = document.getElementById('pre-q').value.toLowerCase();
+  const av = document.getElementById('pre-avail').value;
+  const dr = document.getElementById('pre-drive').value;
+  return preemployment.filter(r => {
+    if (q && !['NAME','PHONE','LOCATION'].some(k=>(r[k]||'').toLowerCase().includes(q))) return false;
+    if (av && !(r.AVAILABILITY||'').includes(av)) return false;
+    if (dr && r['CAN DRIVE'] !== dr) return false;
+    return true;
+  });
+}
+function renderPre() {
+  preFiltered = sortArr(filterPreData(), preSort);
+  const total = preFiltered.length;
+  const pages = Math.max(1, Math.ceil(total/PAGE));
+  prePage = Math.min(prePage, pages);
+  const slice = preFiltered.slice((prePage-1)*PAGE, prePage*PAGE);
+  document.getElementById('pre-count').textContent = `${total} records`;
+
+  const tb = document.getElementById('pre-tbody');
+  if (!slice.length) {
+    tb.innerHTML = '<tr><td colspan="9"><div class="empty"><div class="ico">🔍</div>No records found</div></td></tr>';
+  } else {
+    tb.innerHTML = slice.map((r, idx) => `
+      <tr>
+        <td class="nm" onclick="openPreDetail(${(prePage-1)*PAGE+idx})">${r.NAME||'—'}</td>
+        <td>${r.PHONE||'—'}</td>
+        <td>${r.LOCATION||'—'}</td>
+        <td>${r.AVAILABILITY||'—'}</td>
+        <td style="max-width:180px;">${r['DAYS AVAILABLE']||'—'}</td>
+        <td>${yn(r['CAN DRIVE'])}</td>
+        <td style="max-width:160px;">${r['ORIENTATION DATE']||'—'}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r['COMMENTS']||'—'}</td>
+        <td><button class="btn btn-edit btn-sm" onclick="openPreEdit(${(prePage-1)*PAGE+idx})">✏️</button></td>
+      </tr>`).join('');
+  }
+  renderPgn('pre', prePage, pages, total);
+}
+
+// ══════ PAGINATION ══════
+function renderPgn(w, page, pages, total) {
+  const s = (page-1)*PAGE+1, e = Math.min(page*PAGE,total);
+  let h = `<span class="pgn-info">Showing ${s}–${e} of ${total}</span><div class="pgn-btns">`;
+  h += `<button class="pgn-btn" ${page<=1?'disabled':''} onclick="goPage('${w}',${page-1})">‹</button>`;
+  let ps = Math.max(1,page-2), pe = Math.min(pages,ps+4);
+  if (pe-ps<4) ps=Math.max(1,pe-4);
+  for (let p=ps;p<=pe;p++) h += `<button class="pgn-btn ${p===page?'on':''}" onclick="goPage('${w}',${p})">${p}</button>`;
+  h += `<button class="pgn-btn" ${page>=pages?'disabled':''} onclick="goPage('${w}',${page+1})">›</button></div>`;
+  document.getElementById(w+'-pgn').innerHTML = h;
+}
+function goPage(w,p) { if(w==='int'){intPage=p;renderInt();}else{prePage=p;renderPre();} }
+
+// ══════ DETAIL MODAL (Interview) ══════
+function openIntDetail(idx) {
+  activeIntIdx = idx;
+  const r = intFiltered[idx];
+  document.getElementById('im-name').textContent = r.NAME||'—';
+  document.getElementById('im-badge-wrap').innerHTML = badge(r.STATUS);
+  const flds = [
+    ['Date Added', r.DATE],['Phone',r.PHONE],['Email',r.EMAIL],['Town',r.TOWN],
+    ['Nassau County', r['NASSAU COUNTY AVAILABILITY']],['Legal to Work',r['LEGAL TO WORK IN USA']],
+    ['Valid HHA/PCA',r['VALID HHA/PCA']],['Can Drive',r['CAN DRIVE']],
+    ['Availability',r.AVAILABILITY],['Interview Date',r['INTERVIEW DATE']],
+    ['Orientation Date',r['ORIENTATION DATE']],['Scheduled By',r['SCHEDULED BY']],
+    ['Days Available',r['DAYS AVAILABLE'],true],['Comments',r.COMMENTS,true],
+  ];
+  document.getElementById('im-fields').innerHTML = flds.map(([l,v,full]) =>
+    `<div class="di${full?' full':''}"><div class="di-lbl">${l}</div><div class="di-val">${v||'—'}</div></div>`
+  ).join('');
+  switchToDetail('int');
+  document.getElementById('int-modal').classList.add('open');
+}
+
+function openIntEdit(idx) {
+  activeIntIdx = idx;
+  const r = intFiltered[idx];
+  document.getElementById('im-name').textContent = r.NAME||'—';
+  document.getElementById('im-badge-wrap').innerHTML = badge(r.STATUS);
+  // Populate fields
+  document.getElementById('ie-name').value = r.NAME||'';
+  document.getElementById('ie-phone').value = r.PHONE||'';
+  document.getElementById('ie-email').value = r.EMAIL||'';
+  document.getElementById('ie-town').value = r.TOWN||'';
+  document.getElementById('ie-date').value = (r.DATE||'').slice(0,10);
+  document.getElementById('ie-status').value = r.STATUS||'';
+  document.getElementById('ie-intdate').value = r['INTERVIEW DATE']||'';
+  document.getElementById('ie-oridate').value = r['ORIENTATION DATE']||'';
+  document.getElementById('ie-sched').value = r['SCHEDULED BY']||'';
+  document.getElementById('ie-nassau').value = r['NASSAU COUNTY AVAILABILITY']||'Yes';
+  document.getElementById('ie-legal').value = r['LEGAL TO WORK IN USA']||'Yes';
+  document.getElementById('ie-hha').value = r['VALID HHA/PCA']||'Yes';
+  document.getElementById('ie-drive').value = r['CAN DRIVE']||'Yes';
+  document.getElementById('ie-comments').value = r.COMMENTS||'';
+  setCheckboxValues('ie-avail-cbs', r.AVAILABILITY||'');
+  setCheckboxValues('ie-days-cbs', r['DAYS AVAILABLE']||'');
+  switchToEdit('int');
+  document.getElementById('int-modal').classList.add('open');
+}
+
+function saveIntEdit() {
+  const r = intFiltered[activeIntIdx];
+  r.NAME = document.getElementById('ie-name').value.trim();
+  r.PHONE = document.getElementById('ie-phone').value.trim();
+  r.EMAIL = document.getElementById('ie-email').value.trim();
+  r.TOWN = document.getElementById('ie-town').value.trim();
+  r.DATE = document.getElementById('ie-date').value;
+  r.STATUS = document.getElementById('ie-status').value;
+  r['INTERVIEW DATE'] = document.getElementById('ie-intdate').value.trim();
+  r['ORIENTATION DATE'] = document.getElementById('ie-oridate').value.trim();
+  r['SCHEDULED BY'] = document.getElementById('ie-sched').value.trim();
+  r['NASSAU COUNTY AVAILABILITY'] = document.getElementById('ie-nassau').value;
+  r['LEGAL TO WORK IN USA'] = document.getElementById('ie-legal').value;
+  r['VALID HHA/PCA'] = document.getElementById('ie-hha').value;
+  r['CAN DRIVE'] = document.getElementById('ie-drive').value;
+  r.COMMENTS = document.getElementById('ie-comments').value.trim();
+  r.AVAILABILITY = getCheckboxValues('ie-avail-cbs').join(', ');
+  r['DAYS AVAILABLE'] = getCheckboxValues('ie-days-cbs').join(', ');
+  renderInt(); updateHStats();
+  closeModal('int-modal');
+  toast(`✓ ${r.NAME} updated.`);
+}
+
+// ══════ DETAIL MODAL (Pre-Employment) ══════
+function openPreDetail(idx) {
+  activePreIdx = idx;
+  const r = preFiltered[idx];
+  document.getElementById('pm-name').textContent = r.NAME||'—';
+  document.getElementById('pm-badge-wrap').innerHTML = '<span class="bdg bdg-hired">Pre-Employment</span>';
+  const flds = [
+    ['Date',r.DATE],['Phone',r.PHONE],['Location',r.LOCATION],
+    ['Can Drive',r['CAN DRIVE']],['Availability',r.AVAILABILITY],
+    ['Orientation Date',r['ORIENTATION DATE']],['Interview Date',r['INTERVIEW DATE']],
+    ['Scheduled By',r['SCHEDULED BY']],
+    ['Days Available',r['DAYS AVAILABLE'],true],
+    ['Comments',r.COMMENTS,true],['Paperwork',r['PAPER WORK'],true],
+  ];
+  document.getElementById('pm-fields').innerHTML = flds.map(([l,v,full]) =>
+    `<div class="di${full?' full':''}"><div class="di-lbl">${l}</div><div class="di-val">${v||'—'}</div></div>`
+  ).join('');
+  switchToDetail('pre');
+  document.getElementById('pre-modal').classList.add('open');
+}
+
+function openPreEdit(idx) {
+  activePreIdx = idx;
+  const r = preFiltered[idx];
+  document.getElementById('pm-name').textContent = r.NAME||'—';
+  document.getElementById('pm-badge-wrap').innerHTML = '<span class="bdg bdg-hired">Pre-Employment</span>';
+  document.getElementById('pe-name').value = r.NAME||'';
+  document.getElementById('pe-phone').value = r.PHONE||'';
+  document.getElementById('pe-location').value = r.LOCATION||'';
+  document.getElementById('pe-date').value = (r.DATE||'').slice(0,10);
+  document.getElementById('pe-drive').value = r['CAN DRIVE']||'Yes';
+  document.getElementById('pe-intdate').value = r['INTERVIEW DATE']||'';
+  document.getElementById('pe-oridate').value = r['ORIENTATION DATE']||'';
+  document.getElementById('pe-sched').value = r['SCHEDULED BY']||'';
+  document.getElementById('pe-comments').value = r.COMMENTS||'';
+  document.getElementById('pe-paperwork').value = r['PAPER WORK']||'';
+  setCheckboxValues('pe-avail-cbs', r.AVAILABILITY||'');
+  setCheckboxValues('pe-days-cbs', r['DAYS AVAILABLE']||'');
+  switchToEdit('pre');
+  document.getElementById('pre-modal').classList.add('open');
+}
+
+function savePreEdit() {
+  const r = preFiltered[activePreIdx];
+  r.NAME = document.getElementById('pe-name').value.trim();
+  r.PHONE = document.getElementById('pe-phone').value.trim();
+  r.LOCATION = document.getElementById('pe-location').value.trim();
+  r.DATE = document.getElementById('pe-date').value;
+  r['CAN DRIVE'] = document.getElementById('pe-drive').value;
+  r['INTERVIEW DATE'] = document.getElementById('pe-intdate').value.trim();
+  r['ORIENTATION DATE'] = document.getElementById('pe-oridate').value.trim();
+  r['SCHEDULED BY'] = document.getElementById('pe-sched').value.trim();
+  r.COMMENTS = document.getElementById('pe-comments').value.trim();
+  r['PAPER WORK'] = document.getElementById('pe-paperwork').value.trim();
+  r.AVAILABILITY = getCheckboxValues('pe-avail-cbs').join(', ');
+  r['DAYS AVAILABLE'] = getCheckboxValues('pe-days-cbs').join(', ');
+  renderPre();
+  closeModal('pre-modal');
+  toast(`✓ ${r.NAME} updated.`);
+}
+
+// ══════ DELETE ══════
+function deleteRecord(which) {
+  if (which === 'int') {
+    const r = intFiltered[activeIntIdx];
+    if (!confirm(`Delete ${r.NAME}? This cannot be undone.`)) return;
+    interviews = interviews.filter(x => x._id !== r._id);
+    renderInt(); updateHStats();
+    closeModal('int-modal');
+    toast(`${r.NAME} deleted.`, 'error');
+  } else {
+    const r = preFiltered[activePreIdx];
+    if (!confirm(`Delete ${r.NAME}? This cannot be undone.`)) return;
+    preemployment = preemployment.filter(x => x._id !== r._id);
+    renderPre(); updateHStats();
+    closeModal('pre-modal');
+    toast(`${r.NAME} deleted.`, 'error');
+  }
+}
+
+// ══════ MODAL HELPERS ══════
+function switchToEdit(which) {
+  if (which==='int') {
+    document.getElementById('im-detail').classList.add('hide');
+    document.getElementById('im-edit').classList.add('show');
+  } else {
+    document.getElementById('pm-detail').classList.add('hide');
+    document.getElementById('pm-edit').classList.add('show');
+  }
+}
+function switchToDetail(which) {
+  if (which==='int') {
+    document.getElementById('im-detail').classList.remove('hide');
+    document.getElementById('im-edit').classList.remove('show');
+  } else {
+    document.getElementById('pm-detail').classList.remove('hide');
+    document.getElementById('pm-edit').classList.remove('show');
+  }
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeOnBg(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+// ══════ DASHBOARD ══════
+function renderDash() {
+  const kpiYr = (document.getElementById('kpi-year')||{value:'all'}).value;
+  const kpiMo = (document.getElementById('kpi-month')||{value:'all'}).value;
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  // Populate year dropdown once
+  const kpiYrSel = document.getElementById('kpi-year');
+  if (kpiYrSel && kpiYrSel.options.length <= 1) {
+    const years = new Set();
+    interviews.forEach(r => { const d = new Date(r.DATE||''); if (!isNaN(d.getTime()) && d.getFullYear()>2018) years.add(d.getFullYear()); });
+    preemployment.forEach(r => { const raw=(r.DATE||'').trim()||(r['ORIENTATION DATE']||'').trim(); const d=new Date(raw); if(!isNaN(d.getTime())&&d.getFullYear()>2018) years.add(d.getFullYear()); });
+    const cur = kpiYrSel.value;
+    kpiYrSel.innerHTML = '<option value="all">All Years</option>' + [...years].sort().map(y=>`<option value="${y}" ${String(y)===cur?'selected':''}>${y}</option>`).join('');
+  }
+
+  // Filter helper for interviews by date
+  function matchDate(r) {
+    if (kpiYr === 'all' && kpiMo === 'all') return true;
+    const d = new Date(r.DATE||'');
+    if (isNaN(d.getTime())) return false;
+    if (kpiYr !== 'all' && String(d.getFullYear()) !== kpiYr) return false;
+    if (kpiMo !== 'all' && String(d.getMonth()) !== kpiMo) return false;
+    return true;
+  }
+
+  // Filter helper for preemployment by date
+  function matchPreDate(r) {
+    if (kpiYr === 'all' && kpiMo === 'all') return true;
+    const raw = (r.DATE||'').trim() || (r['ORIENTATION DATE']||'').trim();
+    const d = new Date(raw);
+    if (isNaN(d.getTime())) return false;
+    if (kpiYr !== 'all' && String(d.getFullYear()) !== kpiYr) return false;
+    if (kpiMo !== 'all' && String(d.getMonth()) !== kpiMo) return false;
+    return true;
+  }
+
+  const filteredInt = interviews.filter(matchDate);
+  const filteredPre = preemployment.filter(matchPreDate);
+
+  const total = filteredInt.length;
+  const hired = filteredInt.filter(r=>r.STATUS==='Hired').length;
+  const noshow = filteredInt.filter(r=>r.STATUS==='No Show'||r.STATUS==='DNP').length;
+  const pending = filteredInt.filter(r=>r.STATUS==='Pending Orientation').length;
+  const hiredTotal = filteredPre.length;
+  const rate = total ? Math.round(hiredTotal/total*100) : 0;
+
+  document.getElementById('kpi-total').textContent = total;
+  document.getElementById('kpi-hired').textContent = hired;
+  document.getElementById('kpi-noshow').textContent = noshow;
+  document.getElementById('kpi-pending').textContent = pending;
+  document.getElementById('kpi-rate').textContent = rate+'%';
+
+  // Update subtitles & filter label
+  const isFiltered = kpiYr !== 'all' || kpiMo !== 'all';
+  const label = [kpiMo !== 'all' ? MONTHS[parseInt(kpiMo)] : '', kpiYr !== 'all' ? kpiYr : ''].filter(Boolean).join(' ');
+  const subLabel = isFiltered ? label : 'All time';
+  ['kpi-total-sub','kpi-hired-sub'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent = subLabel; });
+  const fl = document.getElementById('kpi-filter-label');
+  if (fl) fl.textContent = isFiltered ? `Showing: ${label}` : '';
+
+  const statusC = {};
+  interviews.forEach(r => { const s=r.STATUS||'Unknown'; statusC[s]=(statusC[s]||0)+1; });
+  const statusColors = {'Hired':'#1c7a52','No Show':'#b83232','DNP':'#c97d14','Pending Orientation':'#1d5fa8','Pending for In-Person Interview':'#0891b2','Rescheduled':'#7c3aed','Fired':'#6b1a1a'};
+  barChart('ch-status', statusC, statusColors);
+
+  const availC = {};
+  interviews.forEach(r => {
+    (r.AVAILABILITY||'').split(',').forEach(a => { const k=a.trim(); if(k) availC[k]=(availC[k]||0)+1; });
+  });
+  barChart('ch-avail', availC, null);
+
+  const locC = {};
+  interviews.forEach(r => { const l=(r.TOWN||'').trim(); if(l) locC[l]=(locC[l]||0)+1; });
+  const top8 = Object.fromEntries(Object.entries(locC).sort((a,b)=>b[1]-a[1]).slice(0,8));
+  barChart('ch-loc', top8, null);
+
+  const drC = {};
+  interviews.forEach(r => { const d=r['CAN DRIVE']||'Unknown'; drC[d]=(drC[d]||0)+1; });
+  barChart('ch-drive', drC, {'Yes':'#1c7a52','No':'#b83232','Unknown':'#94a3b8'});
+
+  // Hired by scheduler — populate year dropdown then render
+  const allYears = new Set();
+  preemployment.forEach(r => {
+    const raw = (r.DATE||'').trim() || (r['ORIENTATION DATE']||'').trim();
+    if (!raw) return;
+    const d = new Date(raw);
+    if (!isNaN(d.getTime()) && d.getFullYear() > 2018) allYears.add(d.getFullYear());
+  });
+  const schedYrSel = document.getElementById('sched-year');
+  if (schedYrSel) {
+    const curYr = schedYrSel.value;
+    schedYrSel.innerHTML = '<option value="all">All Years</option>' +
+      [...allYears].sort().map(y => `<option value="${y}" ${String(y)===curYr?'selected':''}>${y}</option>`).join('');
+  }
+  renderSchedChart();
+  renderIntSchedChart();
+  const currentYear = new Date().getFullYear();
+  const hiredYTD = preemployment.filter(r => {
+    const raw = (r.DATE||'').trim() || (r['ORIENTATION DATE']||'').trim();
+    if (!raw) return false;
+    const d = new Date(raw);
+    return !isNaN(d.getTime()) && d.getFullYear() === currentYear;
+  }).length;
+  document.getElementById('dash-hired-total').textContent = hiredYTD;
+  document.getElementById('dash-ytd-year').textContent = currentYear;
+  const allScheds = new Set(preemployment.map(r => (r['SCHEDULED BY']||'').trim()).filter(s => s && s !== 'Unknown'));
+  document.getElementById('dash-sched-count').textContent = `across ${allScheds.size} scheduler${allScheds.size!==1?'s':''}`;
+  renderMonthChart();
+}
+
+function renderSchedChart() {
+  const yr = (document.getElementById('sched-year')||{value:'all'}).value;
+  const mo = (document.getElementById('sched-month')||{value:'all'}).value;
+  const schedC = {};
+  preemployment.forEach(r => {
+    const raw = (r.DATE||'').trim() || (r['ORIENTATION DATE']||'').trim();
+    if (yr !== 'all' || mo !== 'all') {
+      if (!raw) return;
+      const d = new Date(raw);
+      if (isNaN(d.getTime())) return;
+      if (yr !== 'all' && String(d.getFullYear()) !== yr) return;
+      if (mo !== 'all' && String(d.getMonth()) !== mo) return;
+    }
+    const s = (r['SCHEDULED BY']||'').trim() || 'Unknown';
+    schedC[s] = (schedC[s]||0) + 1;
+  });
+  barChart('ch-sched', schedC, null);
+}
+
+function renderIntSchedChart() {
+  const yr = (document.getElementById('int-sched-year')||{value:'all'}).value;
+  const mo = (document.getElementById('int-sched-month')||{value:'all'}).value;
+
+  // Populate year dropdown from interview DATE field
+  const intSchedYrSel = document.getElementById('int-sched-year');
+  if (intSchedYrSel && intSchedYrSel.options.length <= 1) {
+    const years = new Set();
+    interviews.forEach(r => {
+      const d = new Date(r.DATE||'');
+      if (!isNaN(d.getTime()) && d.getFullYear() > 2018) years.add(d.getFullYear());
+    });
+    const curYr = intSchedYrSel.value;
+    intSchedYrSel.innerHTML = '<option value="all">All Years</option>' +
+      [...years].sort().map(y => `<option value="${y}" ${String(y)===curYr?'selected':''}>${y}</option>`).join('');
+  }
+
+  const schedC = {};
+  interviews.forEach(r => {
+    const s = (r['SCHEDULED BY']||'').trim();
+    if (!s) return;
+    if (yr !== 'all' || mo !== 'all') {
+      const d = new Date(r.DATE||'');
+      if (isNaN(d.getTime())) return;
+      if (yr !== 'all' && String(d.getFullYear()) !== yr) return;
+      if (mo !== 'all' && String(d.getMonth()) !== mo) return;
+    }
+    schedC[s] = (schedC[s]||0) + 1;
+  });
+
+  barChart('ch-int-sched', schedC, null);
+}
+
+function renderMonthChart() {
+  const yearFilter = (document.getElementById('ch-month-year')||{value:'all'}).value;
+
+  // Build monthly buckets
+  const monthlyScheduled = {};
+  const monthlyHired = {};
+
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  interviews.forEach(r => {
+    // Interview scheduled date — use DATE field (when they were logged/scheduled)
+    const raw = r.DATE || r['INTERVIEW DATE'] || '';
+    const d = new Date(raw);
+    if (!isNaN(d.getTime()) && d.getFullYear() > 2018) {
+      const yr = d.getFullYear();
+      if (yearFilter !== 'all' && String(yr) !== yearFilter) return;
+      const key = MONTHS[d.getMonth()] + ' ' + yr;
+      monthlyScheduled[key] = (monthlyScheduled[key] || 0) + 1;
+    }
+  });
+
+  // ALL people in Pre-Employment tab are hired.
+  // Use column A (DATE) as hire date; fall back to ORIENTATION DATE if DATE is empty.
+  preemployment.forEach(r => {
+    const raw = (r.DATE || '').trim() || (r['ORIENTATION DATE'] || '').trim();
+    if (!raw) return;
+    const d = new Date(raw);
+    if (!isNaN(d.getTime()) && d.getFullYear() > 2018) {
+      const yr = d.getFullYear();
+      if (yearFilter !== 'all' && String(yr) !== yearFilter) return;
+      const key = MONTHS[d.getMonth()] + ' ' + yr;
+      monthlyHired[key] = (monthlyHired[key] || 0) + 1;
+    }
+  });
+
+  // Populate year dropdown
+  const sel = document.getElementById('ch-month-year');
+  if (sel) {
+    const allKeys = [...new Set([...Object.keys(monthlyScheduled), ...Object.keys(monthlyHired)])];
+    const years = [...new Set(allKeys.map(k => k.split(' ')[1]))].sort();
+    const curVal = sel.value;
+    sel.innerHTML = '<option value="all">All Years</option>' +
+      years.map(y => `<option value="${y}" ${curVal===y?'selected':''}>${y}</option>`).join('');
+  }
+
+  // Build sorted month keys
+  const allKeys = [...new Set([...Object.keys(monthlyScheduled), ...Object.keys(monthlyHired)])];
+  allKeys.sort((a, b) => {
+    const [am, ay] = a.split(' '); const [bm, by] = b.split(' ');
+    return (parseInt(ay) - parseInt(by)) || (MONTHS.indexOf(am) - MONTHS.indexOf(bm));
+  });
+
+  if (allKeys.length === 0) {
+    document.getElementById('ch-monthly').innerHTML = '<p style="color:#94a3b8;font-size:13px;padding:10px;">No data with valid dates found.</p>';
+    return;
+  }
+
+  const maxVal = Math.max(...allKeys.map(k => Math.max(monthlyScheduled[k]||0, monthlyHired[k]||0)), 1);
+
+  const rows = allKeys.map(k => {
+    const s = monthlyScheduled[k] || 0;
+    const h = monthlyHired[k] || 0;
+    const sp = Math.round(s / maxVal * 100);
+    const hp = Math.round(h / maxVal * 100);
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;min-width:420px;">
+      <div style="width:72px;font-size:11px;color:#64748b;text-align:right;flex-shrink:0;">${k}</div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="height:14px;width:${sp}%;background:#1d5fa8;border-radius:3px;min-width:${s>0?'3px':'0'};transition:width .3s;"></div>
+          <span style="font-size:11px;color:#1d5fa8;font-weight:600;">${s}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="height:14px;width:${hp}%;background:#1c7a52;border-radius:3px;min-width:${h>0?'3px':'0'};transition:width .3s;"></div>
+          <span style="font-size:11px;color:#1c7a52;font-weight:600;">${h}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('ch-monthly').innerHTML = `<div style="padding:4px 0 2px;">${rows}</div>`;
+}
+
+function barChart(id, counts, colors) {
+  const el = document.getElementById(id);
+  const pal = ['#0d8a8a','#12b0b0','#1c7a52','#c97d14','#b83232','#7c3aed','#1d5fa8','#0f766e'];
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max = Math.max(...sorted.map(e=>e[1]), 1);
+  el.innerHTML = sorted.map(([lbl, n], i) => {
+    const pct = Math.round(n/max*100);
+    const color = (colors&&colors[lbl]) || pal[i%pal.length];
+    return `<div class="bar-row">
+      <div class="bar-lbl" title="${lbl}">${lbl}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color};">${pct>18?n:''}</div></div>
+      <div class="bar-n">${pct<=18?n:''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════ HIRED STAFF ══════
+let hrdFiltered = [];
+let hrdSort = {col:'NAME', dir:1};
+let hrdPage = 1;
+
+function sortHrd(col) { hrdSort.dir = hrdSort.col===col?-hrdSort.dir:1; hrdSort.col=col; renderHired(); }
+
+function filterHiredData() {
+  const q = document.getElementById('hrd-q').value.toLowerCase();
+  const av = document.getElementById('hrd-avail').value;
+  const dr = document.getElementById('hrd-drive').value;
+  const na = document.getElementById('hrd-nassau').value;
+  const dy = document.getElementById('hrd-days').value;
+  return interviews.filter(r => {
+    if (r.STATUS !== 'Hired') return false;
+    if (q && !['NAME','PHONE','TOWN','EMAIL'].some(k=>(r[k]||'').toLowerCase().includes(q))) return false;
+    if (av && !(r.AVAILABILITY||'').includes(av)) return false;
+    if (dr && r['CAN DRIVE'] !== dr) return false;
+    if (na && r['NASSAU COUNTY AVAILABILITY'] !== na) return false;
+    if (dy && !(r['DAYS AVAILABLE']||'').includes(dy)) return false;
+    return true;
+  });
+}
+
+function renderHired() {
+  hrdFiltered = sortArr(filterHiredData(), hrdSort);
+  const total = hrdFiltered.length;
+  const pages = Math.max(1, Math.ceil(total/PAGE));
+  hrdPage = Math.min(hrdPage, pages);
+  const slice = hrdFiltered.slice((hrdPage-1)*PAGE, hrdPage*PAGE);
+  document.getElementById('hrd-count').textContent = `${total} hired staff`;
+
+  const tb = document.getElementById('hrd-tbody');
+  if (!slice.length) {
+    tb.innerHTML = '<tr><td colspan="13"><div class="empty"><div class="ico">🔍</div>No hired staff found</div></td></tr>';
+  } else {
+    tb.innerHTML = slice.map((r, idx) => `
+      <tr>
+        <td class="nm" onclick="openIntDetailFromHired(${(hrdPage-1)*PAGE+idx})">${r.NAME||'—'}</td>
+        <td>${r.PHONE||'—'}</td>
+        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.EMAIL||'—'}</td>
+        <td>${r.TOWN||'—'}</td>
+        <td style="max-width:130px;">${r.AVAILABILITY||'—'}</td>
+        <td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r['DAYS AVAILABLE']||'—'}</td>
+        <td>${yn(r['NASSAU COUNTY AVAILABILITY'])}</td>
+        <td>${yn(r['CAN DRIVE'])}</td>
+        <td>${yn(r['VALID HHA/PCA'])}</td>
+        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r['ORIENTATION DATE']||'—'}</td>
+        <td>${r['SCHEDULED BY']||'—'}</td>
+        <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.COMMENTS||'—'}</td>
+        <td><button class="btn btn-edit btn-sm" onclick="openIntEditFromHired(${(hrdPage-1)*PAGE+idx})">✏️</button></td>
+      </tr>`).join('');
+  }
+  renderPgn('hrd', hrdPage, pages, total);
+}
+
+function goPage_hrd(p) { hrdPage=p; renderHired(); }
+
+// Wire hired pagination into goPage
+const _origGoPage = goPage;
+window.goPage = function(w, p) {
+  if (w==='hrd') { hrdPage=p; renderHired(); }
+  else _origGoPage(w,p);
+};
+
+// Open detail/edit from hired view — reuse interview modal with hrdFiltered as source
+function openIntDetailFromHired(idx) {
+  activeIntIdx = idx;
+  // temporarily point intFiltered at hrdFiltered for the modal to use
+  const saved = intFiltered;
+  intFiltered = hrdFiltered;
+  openIntDetail(idx);
+  intFiltered = saved;
+  // keep hrdFiltered accessible for save
+  window._hrdModalActive = true;
+}
+function openIntEditFromHired(idx) {
+  activeIntIdx = idx;
+  const saved = intFiltered;
+  intFiltered = hrdFiltered;
+  openIntEdit(idx);
+  intFiltered = saved;
+  window._hrdModalActive = true;
+}
+
+// Patch saveIntEdit to re-render hired if needed
+var _origSaveIntEditBase = saveIntEdit;
+window.saveIntEdit = function() {
+  // use hrdFiltered if modal opened from hired view
+  if (window._hrdModalActive) {
+    const r = hrdFiltered[activeIntIdx];
+    r.NAME = document.getElementById('ie-name').value.trim();
+    r.PHONE = document.getElementById('ie-phone').value.trim();
+    r.EMAIL = document.getElementById('ie-email').value.trim();
+    r.TOWN = document.getElementById('ie-town').value.trim();
+    r.DATE = document.getElementById('ie-date').value;
+    r.STATUS = document.getElementById('ie-status').value;
+    r['INTERVIEW DATE'] = document.getElementById('ie-intdate').value.trim();
+    r['ORIENTATION DATE'] = document.getElementById('ie-oridate').value.trim();
+    r['SCHEDULED BY'] = document.getElementById('ie-sched').value.trim();
+    r['NASSAU COUNTY AVAILABILITY'] = document.getElementById('ie-nassau').value;
+    r['LEGAL TO WORK IN USA'] = document.getElementById('ie-legal').value;
+    r['VALID HHA/PCA'] = document.getElementById('ie-hha').value;
+    r['CAN DRIVE'] = document.getElementById('ie-drive').value;
+    r.COMMENTS = document.getElementById('ie-comments').value.trim();
+    r.AVAILABILITY = getCheckboxValues('ie-avail-cbs').join(', ');
+    r['DAYS AVAILABLE'] = getCheckboxValues('ie-days-cbs').join(', ');
+    renderHired(); renderInt(); updateHStats();
+    closeModal('int-modal');
+    toast(`✓ ${r.NAME} updated.`);
+    window._hrdModalActive = false;
+  } else {
+    _origSaveIntEditBase();
+  }
+};
+
+// ══════ PRINT DASHBOARD ══════
+function printDashboard() {
+  var styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]')).map(function(el){return el.outerHTML;}).join('');
+  var panel = document.getElementById('panel-dashboard').cloneNode(true);
+  var btn = panel.querySelector('button[onclick="printDashboard()"]');
+  if (btn) btn.parentElement.remove();
+  var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>BHC Dashboard</title>' + styles + '<style>body{margin:20px;background:#f8fafc;}.panel{display:block!important;}</style></head><body>' + panel.outerHTML + '<' + 'script>window.onload=function(){window.print();}</' + 'script></body></html>';
+  var win = window.open('', '_blank');
+  if (!win) { alert('Allow pop-ups then try again.'); return; }
+  win.document.write(html);
+  win.document.close();
+}
+
+// ══════ LOCAL STORAGE PERSISTENCE ══════
+const LS_INT = 'bhc_interviews_v1';
+const LS_PRE = 'bhc_preemployment_v1';
+
+function saveToStorage() {
+  try {
+    localStorage.setItem(LS_INT, JSON.stringify(interviews));
+    localStorage.setItem(LS_PRE, JSON.stringify(preemployment));
+    const now = new Date().toLocaleTimeString();
+    ['ls-int-status','ls-pre-status'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '✓ Auto-saved at ' + now;
+    });
+  } catch(e) { console.warn('localStorage save failed:', e); }
+}
+
+function loadFromStorage() {
+  try {
+    const intRaw = localStorage.getItem(LS_INT);
+    const preRaw = localStorage.getItem(LS_PRE);
+    if (intRaw) { interviews = JSON.parse(intRaw); }
+    if (preRaw) { preemployment = JSON.parse(preRaw); }
+    if (intRaw || preRaw) {
+      setTimeout(() => {
+        ['ls-int-status','ls-pre-status'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = '✓ Loaded saved data (' + interviews.length + ' records)';
+        });
+      }, 100);
+    }
+  } catch(e) { console.warn('localStorage load failed:', e); }
+}
+function clearStorage() {
+  if (!confirm('⚠️ This will reload data from Google Sheets and discard all local changes. Continue?')) return;
+  localStorage.removeItem(LS_INT);
+  localStorage.removeItem(LS_PRE);
+  gsLoad(false);  // Reload from Sheets
+  toast('Data reloaded from Google Sheets', 'success');
+}
+
+// Hook saves into all mutating functions
+// hooks handled by GS sync below
+
+// ══════ CSV EXPORT ══════
+function exportCSV(which) {
+  let data, filename;
+  if (which === 'interviews') { data = interviews; filename = 'BHC_Interviews.csv'; }
+  else if (which === 'interviews-filtered') { data = intFiltered; filename = 'BHC_Interviews_Filtered.csv'; }
+  else if (which === 'preemployment') { data = preemployment; filename = 'BHC_PreEmployment.csv'; }
+  else if (which === 'hired') { data = interviews.filter(r => r.STATUS === 'Hired'); filename = 'BHC_HiredStaff.csv'; }
+  else return;
+
+  if (!data || data.length === 0) { toast('No data to export.', 'error'); return; }
+
+  const cols = ['NAME','PHONE','EMAIL','TOWN','STATUS','AVAILABILITY','DAYS AVAILABLE',
+    'CAN DRIVE','NASSAU COUNTY AVAILABILITY','VALID HHA/PCA','LEGAL TO WORK IN USA',
+    'INTERVIEW DATE','ORIENTATION DATE','SCHEDULED BY','DATE','COMMENTS'];
+
+  const esc = v => {
+    if (v == null) return '';
+    const s = String(v).replace(/"/g, '""');
+    return (s.includes(',') || s.includes('"') || s.includes('\n')) ? '"' + s + '"' : s;
+  };
+
+  const csv = [cols.map(esc).join(','), ...data.map(r => cols.map(c => esc(r[c])).join(','))].join('\r\n');
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+  toast('Exported ' + data.length + ' records to ' + filename);
+}
+
+// === GOOGLE AUTH + APP BOOT ===
+var ALLOWED_DOMAIN = 'brookvillehomecare.com';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYojsjWhdr8mUx5UA2sqtU824TeLIQm34-hVtC6gMf7Ioywv0sI0ueO5eHcD6TQSxtOg/exec';
+var gsLoaded = false, lastSyncTime = null, autoRefreshTimer = null;
+
+function showSyncStatus(msg, color) {
+  ['ls-int-status','ls-pre-status'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.textContent = msg; el.style.color = color||'#888'; }
+  });
+}
+
+async function gsLoad(silent) {
+  if (!silent) showSyncStatus('Loading data...', '#1d5fa8');
+  try {
+    var res = await fetch(SCRIPT_URL + '?action=getAll&t=' + Date.now());
+    var data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+    var intOpen = document.getElementById('int-modal').classList.contains('open');
+    var preOpen = document.getElementById('pre-modal').classList.contains('open');
+    if (silent && (intOpen || preOpen)) { showSyncStatus('New data available - close record to refresh', '#c97d14'); return; }
+    interviews    = data.interviews.map(function(r,i)    { return Object.assign({}, r, {_id: r._id||i}); });
+    preemployment = data.preemployment.map(function(r,i) { return Object.assign({}, r, {_id: r._id||(i+10000)}); });
+    gsLoaded = true;
+    saveToStorage();
+    renderInt(); renderPre(); updateHStats();
+    if (document.getElementById('panel-dashboard').classList.contains('active')) renderDash();
+    lastSyncTime = new Date();
+    showSyncStatus('Live - Synced ' + lastSyncTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), '#1c7a52');
+  } catch(err) {
+    showSyncStatus('Sync failed - working offline', '#c97d14');
+    console.error('gsLoad:', err);
+  }
+}
+
+async function gsAdd(which, record) {
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: which === 'int' ? 'addInterview' : 'addPre', record })
+    });
+  } catch (e) { console.warn('gsAdd failed', e); }
+}
+async function gsUpdate(which, record) {
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: which === 'int' ? 'updateInterview' : 'updatePre', record })
+    });
+  } catch (e) { console.warn('gsUpdate failed', e); }
+}
+async function gsDelete(which, _id) {
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: which === 'int' ? 'deleteInterview' : 'deletePre', _id })
+    });
+  } catch (e) { console.warn('gsDelete failed', e); }
+}
+function startAutoRefresh() {
+  if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+  autoRefreshTimer = setInterval(function() { gsLoad(true); }, 60000);
+}
+
+var _origSubmitIntake = submitIntake;
+window.submitIntake = function() { _origSubmitIntake(); saveToStorage(); gsAdd('int', interviews[0]); };
+var _origDeleteRecord = deleteRecord;
+window.deleteRecord = function(w) {
+  var rec = w==='int' ? intFiltered[activeIntIdx] : preFiltered[activePreIdx];
+  _origDeleteRecord(w); saveToStorage();
+  if (rec) gsDelete(w, rec._id);
+};
+var _origSavePreEdit = savePreEdit;
+window.savePreEdit = function() { _origSavePreEdit(); saveToStorage(); var r=preFiltered[activePreIdx]; if(r) gsUpdate('pre',r); };
+
+var _origSaveIntEditGS = window.saveIntEdit;
+window.saveIntEdit = function() {
+  var wasHrdModal = !!window._hrdModalActive;
+  _origSaveIntEditGS();
+  saveToStorage();
+  // pick the edited record (from the right filtered source)
+  var edited = wasHrdModal ? hrdFiltered[activeIntIdx] : intFiltered[activeIntIdx];
+  if (!edited) return;
+  // find the canonical object in interviews by _id (safer)
+  var canonical = interviews.find(x => x._id === edited._id) || edited;
+  gsUpdate('int', canonical);
+};
+function bootApp(email) {
+  document.getElementById('identity-gate').style.display = 'none';
+  document.getElementById('app-content').style.display = 'block';
+  var el = document.getElementById('user-email-display');
+  if (el) el.textContent = email;
+  var btn = document.getElementById('signout-btn');
+  if (btn) btn.style.display = 'inline-block';
+  sessionStorage.setItem('bhc_user', email);
+  loadFromStorage(); updateHStats(); renderInt();
+  gsLoad(false); startAutoRefresh();
+}
+
+function doSignOut() {
+  sessionStorage.removeItem('bhc_user');
+  google.accounts.id.disableAutoSelect();
+  document.getElementById('identity-gate').style.display = 'flex';
+  document.getElementById('app-content').style.display = 'none';
+  var el = document.getElementById('user-email-display'); if (el) el.textContent = '';
+  var btn = document.getElementById('signout-btn'); if (btn) btn.style.display = 'none';
+}
+
+function handleGoogleCredential(response) {
+  try {
+    var parts = response.credential.split('.');
+    var payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+    var email = payload.email || '';
+    var domain = email.split('@')[1] || '';
+    if (domain.toLowerCase() !== ALLOWED_DOMAIN.toLowerCase()) {
+      document.getElementById('gate-error').textContent = 'Access restricted to @' + ALLOWED_DOMAIN + ' accounts only.';
+      return;
+    }
+    bootApp(email);
+  } catch(e) {
+    document.getElementById('gate-error').textContent = 'Sign-in failed. Please try again.';
+    console.error('Google auth error:', e);
+  }
+}
+
+function initGoogleSignIn() {
+  google.accounts.id.initialize({
+    client_id: '300419270555-7dg5lqtil3c6llp9m0ib8v26ijm25vks.apps.googleusercontent.com',
+    callback: handleGoogleCredential,
+    auto_select: false
+  });
+  google.accounts.id.renderButton(
+    document.getElementById('google-signin-btn'),
+    {theme: 'outline', size: 'large', width: 280, text: 'signin_with'}
+  );
+}
+
+// Check existing session
+(function() {
+  var saved = sessionStorage.getItem('bhc_user');
+  if (saved) {
+    bootApp(saved);
+  } else {
+    // Wait for Google GSI to load then init
+    var tries = 0;
+    var interval = setInterval(function() {
+      tries++;
+      if (window.google && google.accounts) {
+        clearInterval(interval);
+        initGoogleSignIn();
+      } else if (tries > 20) {
+        clearInterval(interval);
+        document.getElementById('gate-error').textContent = 'Google Sign-In failed to load. Check your connection.';
+      }
+    }, 200);
+  }
+})();
+
+// ══════ INIT ══════
+
+// App boots via Google Sign-In above
+</script>
+
+</div>
+</body>
+</html>
+
